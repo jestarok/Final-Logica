@@ -8,9 +8,8 @@ master.minsize(500,500)
 prolog = Prolog()
 prolog.consult("C:/final.pl")
 
-w = Label(master, text="FINAL")
-w.pack()
 
+#Funciones y elaboracion del Test
 def Test():
     master = Toplevel()
 
@@ -44,16 +43,37 @@ def Test():
     btn.pack()
     preguntalbl.update_idletasks()
 
-b1 = Button(master,text="Tomar Test", command = Test)
-b2 = Button(master,text="Masa de Planetas")
-b3 = Button(master, text="Tiempo respecto al Sol")
+#Mensaje de ayuda
+def Ayuda():
+    cuadroAyuda= Toplevel()
+    cuadroAyuda.minsize(300,300)
 
-b3.pack()
-b2.pack()
-b1.pack()
+#Pantalla principal
+#menu
+menu = Menu(master)
+#boton Test
+test = Menu(menu,tearoff=0)
+test.add_command(label="Tomar Test",command= Test)
+menu.add_cascade(label="Test",menu = test)
 
-b3.place(relx=.35, rely=.53)
-b2.place(relx=.39,rely=.46)
-b1.place(relx=.39,rely=.39)
+#boton Ayuda
+ayuda = Menu(menu,tearoff=0)
+ayuda.add_command(label="Ayuda",command= Ayuda)
+menu.add_cascade(label="Help",menu=ayuda)
+
+#Testo descriptivo de la aplicacion
+text = Text(master)
+text.insert(INSERT,"Esta aplicacion es un Test de personalidad especifico, en el cual, " +
+                   "a traves de un conjunto de\n preguntas se determinara la tendencia " +
+                   "hacia una de las cuatro(4) personalidades existentes, las\n cuales son:" +
+                   " Colerico, Melancolico, Flematico, Sanguineo. \n\n Dentro de esta aplicacion"+
+                   " se tiene las opciones de tomar el Test, luego de haberlo tomado: se\n puede obtener su tipo de "+
+                   "pesonalidad, saber con quien tiende a llevarse mejor a traves de sus\n personalidades.")
+text.pack()
+text.tag_add("all","1.0","10.0")
+text.tag_config("all",font="Times 16",justify=CENTER)
+
+master.config(menu = menu)
+
 
 mainloop()
