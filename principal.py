@@ -10,23 +10,33 @@ prolog.consult("C:/final.pl")
 
 
 def registro():
+    def inicio():
+        if tfnombre.get() != "" and tfapellido.get() != "":
+            Test(tfnombre.get(), tfapellido.get())
+            register.destroy()
+
     register = Toplevel()
-    register.minsize(100,50)
+    register.minsize(150,150)
     lblnombre = Label(register,text="Nombre: ")
     tfnombre = Entry(register)
-    start = Button(register,text="Iniciar Test",command=Test)
-    lblnombre.pack(side=LEFT)
-    tfnombre.pack(side=RIGHT,padx=5)
+    lblapellido = Label(register, text="Apellido: ")
+    tfapellido = Entry(register)
+    start = Button(register,text="Iniciar Test",command=inicio)
+    lblnombre.pack()
+    tfnombre.pack()
+    lblapellido.pack()
+    tfapellido.pack()
     start.pack(side=BOTTOM)
-    start.place(relx=.35,rely=.75)
+
 
 #Funciones y elaboracion del Test
-def Test():
-    master = Toplevel()
-    master.minsize(500,125)
+def Test(H,P):
+    print H,P
+    test = Toplevel()
+    test.minsize(600,255)
     contpregunta = IntVar()
     contpregunta.set(0)
-    contsanguina = 0
+    contsanguinea = 0
     contcolericas = 0
     contmelancolicas = 0
     contflematicas = 0
@@ -39,7 +49,7 @@ def Test():
     def next():
         if(contpregunta.get() == 14):
             #resultado()
-            master.destroy()
+            test.destroy()
         else:
             contpregunta.set(contpregunta.get()+1)
             preguntalbl.config(text=preguntas[contpregunta.get()])
@@ -63,16 +73,16 @@ def Test():
     for palabras in prolog.query("palabras('C:/flematico.txt',PS)"):
         palabrasflematicas.append(palabras["PS"])
 
-    preguntalbl = Label(master, text=preguntas[contpregunta.get()])
+    preguntalbl = Label(test, text=preguntas[contpregunta.get()])
     preguntalbl.pack()
-    btn1 = Button(master,text=palabrassanguineas[contpregunta.get()],command=lambda: next())
-    btn1.pack()
-    btn2 = Button(master,text=palabrascolericas[contpregunta.get()],command=lambda: next())
-    btn2.pack()
-    btn3 = Button(master,text=palabrasmelancolicas[contpregunta.get()],command=lambda: next())
-    btn3.pack()
-    btn4 = Button(master,text=palabrasflematicas[contpregunta.get()],command=lambda: next())
-    btn4.pack()
+    btn1 = Button(test,text=palabrassanguineas[contpregunta.get()],command=lambda: next())
+    btn1.pack(side=LEFT,padx=25)
+    btn2 = Button(test,text=palabrascolericas[contpregunta.get()],command=lambda: next())
+    btn2.pack(side=LEFT,padx=25)
+    btn3 = Button(test,text=palabrasmelancolicas[contpregunta.get()],command=lambda: next())
+    btn3.pack(side=LEFT,padx=25)
+    btn4 = Button(test,text=palabrasflematicas[contpregunta.get()],command=lambda: next())
+    btn4.pack(side=LEFT,padx=25)
     preguntalbl.update_idletasks()
 
 #Mensaje de ayuda
