@@ -8,7 +8,7 @@ import operator
 master = Tk()
 master.minsize(500,500)
 prolog = Prolog()
-prolog.consult("C:/prol/final.pl")
+prolog.consult("C:/Users/Public/prol/final.pl")
 global mensajeSan, mensajeFla, mensajeCol,mensajeMela
 mensajeSan = "Este temperamento está basado en un tipo de sistema nervioso rápido y equilibrado que se caracteriza por poseer una alta sensibilidad, "+\
              "un bajo nivel de actividad y fijación de la concentración y una moderada reactividad al medio; es característico "+\
@@ -43,11 +43,32 @@ mensajeCol = "Está basado en un tipo de sistema nervioso rápido y desequilibra
              "fijarse metas muy altas, porque considera que es capaz, pero no siempre las cumple, no por falta de capacidad sino de tiempo o tropiezos encontrados. Dominante y hasta manipulador para alcanzar su objetivo. Tiende a ser manipulador, pero "+\
              "también es muy intolerante. Quiere hacer todo lo que desee."
 
+def asertarMemoria():
+    archivo = open("C:/Users/Public/prol/final.txt","r")
+    for linea in archivo.readlines():
+        lista = linea.split("_")
+        dos = lista[2].split(".")
+        list(prolog.query("assertz(personalidad(" + str(lista[0]) + str(lista[1]) + "," + str(dos[0]) + "))."))
+
+    #for uno in prolog.query("personalidad(Nombre,Person)"):
+       # print uno["Nombre"],uno["Person"]
+    archivo.close()
+
+
+asertarMemoria()
+
+#Para el boton registro, Este nombre se utilizo para calmar el estres de trabajar desde el sabado hasta el Lunes a las 2AM
+def juanLuigi():
+    var= "grasa de atra"
+
+#Para el boton relaciones
+def relaciones():
+    sii = "siiiiiii"
 
 def registro():
     def inicio():
         if tfnombre.get() != "" and tfapellido.get() != "":
-            Test(tfnombre.get(), tfapellido.get())
+            Test(tfnombre.get().lower(), tfapellido.get())
             register.destroy()
 
     register = Toplevel()
@@ -85,6 +106,8 @@ def resultado(N, A, Max):
     text.pack()
     text.tag_add("all", "1.0", "30.0")
     text.tag_config("all", font="Times 16", justify=CENTER)
+
+    list(prolog.query("assertz(personalidad(" + str(N) + str(A) + "," + str(Max) + "))."))
 
     # Aqui se escribe el archivo con el nombre y el tipo de la persona
     # Se ensena quien hizo el test, que salio y que significa.
@@ -155,19 +178,19 @@ def Test(N,A):
             sumarpuntos(contador)
             print contsanguinea.get(),contcolericas.get(),contmelancolicas.get(),contflematicas.get()
 
-        #        maxi.set(max(contsanguinea.get(),contcolericas.get(),contmelancolicas.get(),contflematicas.get()))
+        # maxi.set(max(contsanguinea.get(),contcolericas.get(),contmelancolicas.get(),contflematicas.get()))
 
 
     for pregunta in prolog.query("pregunta(P)"):
         preguntas.append(pregunta["P"])
 
-    for palabras in prolog.query("palabras('C:/prol/sanguineo.txt',PS)"):
+    for palabras in prolog.query("palabras('C:/Users/Public/prol/sanguineo.txt',PS)"):
         palabrassanguineas.append(palabras["PS"])
-    for palabras in prolog.query("palabras('C:/prol/colerico.txt',PS)"):
+    for palabras in prolog.query("palabras('C:/Users/Public/prol/colerico.txt',PS)"):
         palabrascolericas.append(palabras["PS"])
-    for palabras in prolog.query("palabras('C:/prol/melancolico.txt',PS)"):
+    for palabras in prolog.query("palabras('C:/Users/Public/prol/melancolico.txt',PS)"):
         palabrasmelancolicas.append(palabras["PS"])
-    for palabras in prolog.query("palabras('C:/prol/flematico.txt',PS)"):
+    for palabras in prolog.query("palabras('C:/Users/Public/prol/flematico.txt',PS)"):
         palabrasflematicas.append(palabras["PS"])
 
     preguntalbl = Label(test, text=preguntas[contpregunta.get()])
@@ -196,6 +219,8 @@ menu = Menu(master)
 #boton Test
 test = Menu(menu,tearoff=0)
 test.add_command(label="Tomar Test",command= registro)
+test.add_command(label="Registro",command=juanLuigi)
+test.add_command(label="Relaciones",command=relaciones)
 menu.add_cascade(label="Test",menu = test)
 
 #boton Ayuda
