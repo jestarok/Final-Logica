@@ -62,8 +62,42 @@ def juanLuigi():
     var= "grasa de atra"
 
 #Para el boton relaciones
+
+
+
+def select2(event):
+    relacionFrame = Toplevel()
+    contador = 0
+    relacionFrame.minsize(100,75)
+    label = Label(relacionFrame,text="Estas son las personas con que compagina")
+    personaList = Listbox(relacionFrame)
+    e = event.widget
+    index = int(e.curselection()[0])
+    valor = e.get(index)
+    label.pack()
+    for persona in prolog.query("relaciones("+valor+",Acierto)"):
+        personaList.insert(contador,persona["Acierto"])
+        contador += 1
+    personaList.pack()
+    print 'You selected item %d: "%s"' % (index, valor)
+
+
+
+
 def relaciones():
     sii = "siiiiiii"
+    child1 = Toplevel()
+    Lb1 = Listbox(child1, selectmode=SINGLE)
+
+    i=1
+    for luna in prolog.query("personalidad(Persona,Personalidad)"):
+        Lb1.insert(i, luna["Persona"])
+        i += 1
+
+    Lb1.bind('<<ListboxSelect>>',select2)
+    Lb1.pack()
+
+
 
 def registro():
     def inicio():
